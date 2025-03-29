@@ -27,4 +27,43 @@ class TareaController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future addTarea(Tarea tarea) async {
+    try {
+      isLoading.value = true;
+      var nuevaTarea = await repository.createTarea(tarea);
+      tareas.add(nuevaTarea);
+    } catch (e) {
+      error.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future updateTarea(Tarea tarea) async {
+    try {
+      isLoading.value = true;
+      var actualizada = await repository.updateTarea(tarea);
+      int index = tareas.indexWhere((t) => t.id == tarea.id);
+      if (index != -1) {
+        tareas[index] = actualizada;
+      }
+    } catch (e) {
+      error.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future deleteTarea(int id) async {
+    try {
+      isLoading.value = true;
+      await repository.deleteTarea(id);
+      tareas.removeWhere((t) => t.id == id);
+    } catch (e) {
+      error.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

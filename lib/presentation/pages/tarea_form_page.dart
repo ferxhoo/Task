@@ -5,7 +5,5 @@ class TareaFormPage extends StatefulWidget {
   const TareaFormPage({super.key});
 
   @override
-  State<StatefulWidget> createState() {
-    return TareaFormPageState();
-  }
+  State<TareaFormPage> createState() => TareaFormPageState();
 }
