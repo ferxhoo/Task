@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:tareas/data/models/tarea.dart';
 import 'package:tareas/domain/controllers/tarea_controller.dart';
 import 'package:tareas/presentation/pages/tarea_form_page.dart';
+import 'package:tareas/presentation/utility/color_state.dart';
 
 class TareaFormPageState extends State<TareaFormPage> {
   final _formKey = GlobalKey<FormState>();
@@ -12,15 +13,6 @@ class TareaFormPageState extends State<TareaFormPage> {
   late TextEditingController detalleController;
   String estado = 'pendiente';
   int? tareaId;
-
-  Color colorWithOpacity(Color color, double opacity) {
-    return color.withValues(
-      red: color.r,
-      green: color.g,
-      blue: color.b,
-      alpha: opacity,
-    );
-  }
 
   @override
   void initState() {
@@ -49,6 +41,8 @@ class TareaFormPageState extends State<TareaFormPage> {
   }
 
   void _submit() {
+    final ColorState colorState = ColorState();
+
     if (_formKey.currentState!.validate()) {
       final nuevaTarea = Tarea(
         id: tareaId ?? 0,
@@ -66,14 +60,12 @@ class TareaFormPageState extends State<TareaFormPage> {
           controller.updateTarea(nuevaTarea);
           mensaje = 'Tarea actualizada correctamente';
         }
-        // Cierra la pantalla enviando el mensaje de éxito a la vista anterior
         Get.back(result: mensaje);
       } catch (e) {
-        // En caso de error se muestra el snackbar de error y no se cierra la pantalla
         Get.snackbar(
           'Error',
           'No se pudo guardar la tarea: ${e.toString()}',
-          backgroundColor: colorWithOpacity(Colors.red, 0.7),
+          backgroundColor: colorState.colorWithOpacity(Colors.red, 0.7),
           colorText: Colors.white,
           snackPosition: SnackPosition.BOTTOM,
         );

@@ -2,20 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tareas/data/models/tarea.dart';
+import 'package:tareas/presentation/utility/color_state.dart';
 
 class TareaTile extends StatelessWidget {
   final Tarea tarea;
   final VoidCallback onDelete;
   final VoidCallback onTap;
-
-  Color colorWithOpacity(Color color, double opacity) {
-    return color.withValues(
-      red: color.r,
-      green: color.g,
-      blue: color.b,
-      alpha: opacity,
-    );
-  }
 
   const TareaTile({
     super.key,
@@ -24,34 +16,10 @@ class TareaTile extends StatelessWidget {
     required this.onTap,
   });
 
-  Color _getEstadoColor() {
-    switch (tarea.estado) {
-      case 'pendiente':
-        return Colors.orange.shade200;
-      case 'en progreso':
-        return Colors.blue.shade200;
-      case 'completado':
-        return Colors.green.shade200;
-      default:
-        return Colors.grey.shade200;
-    }
-  }
-
-  IconData _getEstadoIcon() {
-    switch (tarea.estado) {
-      case 'pendiente':
-        return Icons.pending_outlined;
-      case 'en progreso':
-        return Icons.play_circle_outline_rounded;
-      case 'completado':
-        return Icons.check_circle_outline_rounded;
-      default:
-        return Icons.help_outline_rounded;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final ColorState colorState = ColorState();
+
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -60,7 +28,7 @@ class TareaTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: colorWithOpacity(Colors.blueGrey, 0.1),
+            color: colorState.colorWithOpacity(Colors.blueGrey, 0.1),
             spreadRadius: 2,
             blurRadius: 5,
             offset: const Offset(0, 3),
@@ -72,11 +40,15 @@ class TareaTile extends StatelessWidget {
         leading: Container(
           width: 50,
           decoration: BoxDecoration(
-            color: _getEstadoColor(),
+            color: colorState.getEstadoColor(tarea),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Center(
-            child: Icon(_getEstadoIcon(), color: Colors.white, size: 24),
+            child: Icon(
+              colorState.getEstadoIcon(tarea),
+              color: Colors.white,
+              size: 24,
+            ),
           ),
         ),
         title: Text(

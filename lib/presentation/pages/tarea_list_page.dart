@@ -2,24 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tareas/domain/controllers/tarea_controller.dart';
+import 'package:tareas/presentation/utility/color_state.dart';
 import 'package:tareas/presentation/widgets/tarea_tile.dart';
 import 'package:tareas/routes/app_routes.dart';
 
 class TareaListPage extends StatelessWidget {
   const TareaListPage({super.key});
 
-  Color colorWithOpacity(Color color, double opacity) {
-    return color.withValues(
-      red: color.r,
-      green: color.g,
-      blue: color.b,
-      alpha: opacity,
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final TareaController controller = Get.put(TareaController());
+    final ColorState colorState = ColorState();
     return Scaffold(
       backgroundColor: const Color(0xFFF0F4F8),
       appBar: AppBar(
@@ -44,7 +37,10 @@ class TareaListPage extends StatelessWidget {
                   Get.snackbar(
                     'Éxito',
                     result,
-                    backgroundColor: colorWithOpacity(Colors.green, 0.7),
+                    backgroundColor: colorState.colorWithOpacity(
+                      Colors.green,
+                      0.7,
+                    ),
                     colorText: Colors.white,
                     snackPosition: SnackPosition.TOP,
                   );
@@ -83,7 +79,7 @@ class TareaListPage extends StatelessWidget {
               Get.snackbar(
                 'Éxito',
                 result,
-                backgroundColor: colorWithOpacity(Colors.green, 0.7),
+                backgroundColor: colorState.colorWithOpacity(Colors.green, 0.7),
                 colorText: Colors.white,
                 snackPosition: SnackPosition.TOP,
               );
@@ -182,6 +178,7 @@ class TareaListPage extends StatelessWidget {
   }
 
   Widget _buildTaskList(TareaController controller) {
+    final ColorState colorState = ColorState();
     return ListView.builder(
       itemCount: controller.tareas.length,
       itemBuilder: (context, index) {
@@ -197,7 +194,10 @@ class TareaListPage extends StatelessWidget {
                   Get.snackbar(
                     'Éxito',
                     result,
-                    backgroundColor: colorWithOpacity(Colors.green, 0.7),
+                    backgroundColor: colorState.colorWithOpacity(
+                      Colors.green,
+                      0.7,
+                    ),
                     colorText: Colors.white,
                     snackPosition: SnackPosition.TOP,
                   );
